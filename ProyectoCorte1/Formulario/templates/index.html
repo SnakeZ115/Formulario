@@ -1,0 +1,126 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <title>Formulario</title>
+</head>
+<body>
+    <form action="{% url 'subir' %}" class="box" method="post">
+        {% csrf_token %}
+        <figure class="image is-2by1" style="margin: 0 auto;">
+            <img src="{% static 'imgs/PreRegistro.png' %}" alt="" srcset="">
+        </figure>
+
+        <div class="field">
+            <label for="curp" class="label">CURP</label>
+            <div class="control">
+                <input type="text" name="curp" id="curp" class="input" placeholder="CURP" required>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="nombre" class="label">Nombre(s)</label>
+            <div class="control">
+                <input type="text" name="nombre" id="nombre" class="input" placeholder="Nombre(s)" required>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="apellidoPaterno" class="label">Primer Apellido</label>
+            <div class="control">
+                <input type="text" name="apellidoPaterno" id="apellidoPaterno" class="input" placeholder="Primer Apellido" required>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="apellidoMaterno" class="label">Segundo Apellido</label>
+            <div class="control">
+                <input type="text" name="apellidoMaterno" id="apellidoMaterno" class="input" placeholder="Segundo Apellido" required>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="correo" class="label">Correo Electronico</label>
+            <div class="control">
+                <input type="email" name="correo" id="correo" class="input" placeholder="Correo" required>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="" class="label">Confirmar Correo Electronico</label>
+            <div class="control">
+                <input type="email" name="" id="confirmarCorreo" class="input" placeholder="Confirmar correo" required>
+            </div>
+        </div>
+
+        <span id="mensaje-validacion"></span>
+
+        <div class="field">
+            <label for="telefonoCasa" class="label">Telefono Casa</label>
+            <div class="control">
+                <input type="text" name="telefonoCasa" id="telefonoCasa" class="input" placeholder="Telefono Casa" required>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="telefonoCelular" class="label">Telefono Celular</label>
+            <div class="control">
+                <input type="number" name="telefonoCelular" id="telefonoCelular" class="input" placeholder="Telefono Celular" required>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="carrera" class="label">Carrera de Interes</label>
+            <div class="select">
+                <select name="carrera" id="">
+                    {%for carrera in carreras%}
+                    <option value="{{carrera.nombre}}">{{carrera.nombre}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="procedencia" class="label">Escuela de Procedencia</label>
+            <div class="control">
+                <input type="text" name="procedencia" id="procedencia" class="input" placeholder="Escuela de Procedencia" required>
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="control">
+                <button type="submit" class="button is-link" id="boton">Enviar</button>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        const correoInput = document.getElementById('correo');
+        const confirmarCorreoInput = document.getElementById('confirmarCorreo');
+        const mensajeValidacion = document.getElementById('mensaje-validacion');
+        const boton = document.getElementById('boton');
+
+        correoInput.addEventListener('input', validarConfirmacionCorreo);
+        confirmarCorreoInput.addEventListener('input', validarConfirmacionCorreo);
+
+        function validarConfirmacionCorreo() {
+            const correo = correoInput.value;
+            const confirmarCorreo = confirmarCorreoInput.value;
+
+            if (correo === confirmarCorreo) {
+                mensajeValidacion.textContent = '';
+                boton.disabled = false;
+            } else {
+                mensajeValidacion.textContent = 'Los correos electrónicos no coinciden.';
+                boton.disabled = true;
+            }
+        }
+    });
+    </script>
+</body>
+</html>
